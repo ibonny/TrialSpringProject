@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DynamicLoader {
-    private Class loadJarFile(String jarFilename, String className) throws MalformedURLException {
+    private Class<?> loadJarFile(String jarFilename, String className) throws MalformedURLException {
         URLClassLoader child = new URLClassLoader(new URL[] { new URL("file://" + jarFilename) },
                 this.getClass().getClassLoader());
 
@@ -29,10 +29,13 @@ public class DynamicLoader {
             InstantiationException, IllegalAccessException, InvocationTargetException, MalformedURLException {
         Class<?> classToLoad = loadJarFile("./target/demo-0.0.1-SNAPHOT.war", "com.example.demo.DemoService");
 
-        Method method = classToLoad.getDeclaredMethod(funcName);
-        Object instance = classToLoad.getConstructor().newInstance();
-        Object result = method.invoke(instance);
+        // Method method = classToLoad.getDeclaredMethod(funcName);
+        DemoService instance = (DemoService) classToLoad.getConstructor().newInstance();
 
-        return result;
+        return instance.sampleFunction();
+
+        // Object result = method.invoke(instance);
+
+        // return result;
     }
 }
