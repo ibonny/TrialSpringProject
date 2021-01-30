@@ -1,0 +1,10 @@
+type TestType {
+    firstName: String
+    lastName: String
+}
+
+# The Root Query for the application
+type Query {
+    testQuery: String!
+    allTypes: [TestType]
+}
